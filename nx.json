@@ -1,0 +1,54 @@
+{
+  "npmScope": "foodmedicine",
+  "implicitDependencies": {
+    "workspace.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  },
+  "projects": {
+    "health-site-scraper": {
+      "tags": []
+    },
+    "scholars-scraper": {
+      "tags": []
+    },
+    "scraper-runner": {
+      "tags": []
+    },
+    "interfaces": {
+      "tags": []
+    },
+    "article-parser": {
+      "tags": []
+    },
+    "api-express": {
+      "tags": []
+    },
+    "components": {
+      "tags": []
+    },
+    "word-explorer": {
+      "tags": []
+    },
+    "api-frontend": {
+      "tags": []
+    },
+    "api-frontend-e2e": {
+      "tags": [],
+      "implicitDependencies": ["api-frontend"]
+    }
+  }
+}
