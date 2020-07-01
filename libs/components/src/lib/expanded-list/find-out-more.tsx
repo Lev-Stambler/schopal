@@ -13,7 +13,7 @@ export function FindOutMore<T>(props: FindOutMoreProps<T>) {
       <button onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? 'Close' : 'Find out more'}
       </button>
-      {isOpen && (props.ExpandedComponent as unknown)(props.ExpandedComponentProps)}
+      {isOpen && (props.ExpandedComponent as any)(props.ExpandedComponentProps)}
     </div>
   );
 }
