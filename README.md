@@ -4,34 +4,29 @@
 
 ## Objective
 
-This project seeks to provide backup or lack thereof for commonly recommended “food as medicine” remedies through published literature and scholarly papers.
+This project helps users find relevant paragraphs within scholarly articles.
 
 ## Background
 
-The food as medicine methodology is an idea where eating healthy foods and choosing specific foods can help remedy health issues. Many studies have been conducted to verify this approach. Studies such as [Food as Medicine: Potential Therapeutic Tendencies of Plant Derived Polyphenolic Compounds](https://pdfs.semanticscholar.org/fae8/cbb215a33657de9a8e50b4a590dd2577825b.pdf), [Balancing Herbal Medicine and Functional Food for Prevention and Treatment of Cardiometabolic Diseases through Modulating Gut Microbiota](https://www.frontiersin.org/articles/10.3389/fmicb.2017.02146/full), and many others have come out over the past 20 years. There also currently exist many sites, such as Elaine Moran Wellness, which make recommendations of certain foods for certain conditions. Some of these sites which give recommendations often do not cite scholarly sources. But, the information on these sites may still be useful.
+Scholarly articles can often be long, and finding one which either backs up or disproves an idea can be quite difficult and time consuming. When searching for an article on a scholarly search engine, such as [Google Scholars](https://scholar.google.com/), full article texts are returned. Full articles take time to read through and may not contain the information the searcher was hoping to find.
 
 ## Overview
-
-By using [EuropePMC's rest API](https://europepmc.org/RestfulWebService), this project aims to bridge the gap between scholarly research and sites which make easily accessible and understandable recommendations.
-This project will use web scraping techniques on sites which make recommendations and then attempt to find a set of scholarly sources which back up the claims made. This relationship will then be stored in a database. Thus a user could then cross check recommended foods or use this newly assembled data to find food remedies.
-
-The audience for this project are end consumers looking to better understand the recommendations put forth by food as medicine.
+By starting with [EuropePMC's rest API](https://europepmc.org/RestfulWebService), this project aims to create a search engine which ranks results based on individual paragraphs. Once EuropePMC’s scholarly API is initially implemented, more scholarly APIs can be added.
+This project will use the API, NLP, and basic search techniques in order to find relevant paragraphs to a search query. 
+The audience for this project are end consumers looking to better understand scholarly claims and researchers looking for other journals.
 
 Priorities:
 - P0
-  - Scraped recommendations for specific symptoms or desired effects
-  - A collection of articles related to the scraped recommendations
-  - A table to display the recommendations and corresponding articles
+  -  Search EuropePMC’s api for relevant articles and give each article in the paragraph a correlation score to a query
 - P1
-  - Paragraphs selected which specifically back up or go against the food as medicine claims
+  - Create a frontend for the Search Engine
 - P2
-  - Giving each claim a correlation score. The higher the score, the more the claim is supported by research
+  - Improve the correlation score via an NLP classifier.
 - P3
-  - Using scientific names and synonyms for recommendations, symptoms, and desired effects to find more correlated articles
-  - Use a scraper which finds all recommendations on Elaine Moran’s site
+  - Add in more APIs to go alongside EuropePMC’s api
 - P4
   - Mobile friendly view
-
+  
 This project will be built using Typescript. Typescript was chosen because this project involves web scraping, a frontend, and JSON objects. Typescript’s integration with JSON objects and strong typing will allow for easier scraping and integration with APIs. Typescript’s native support for promises will allow for making multiple API and web scraping calls concurrently.
 Moreover, I have the most experience in Typescript and, due to the project’s short time frame, rapid development is prioritized.
 
