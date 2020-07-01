@@ -375,5 +375,5 @@
       }
     }
   },
-  "defaultProject": "scraper-runner"
+  "defaultProject": "api-express"
 }
