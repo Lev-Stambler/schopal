@@ -7,6 +7,10 @@ import { onSearch } from './onsearch';
 import './search-result.css';
 import { SearchBar } from '@foodmedicine/components';
 
+function createGoogleScholarsQueryLink(title: string): string {
+  return `https://scholar.google.com/scholar?hl=en&as_sdt=0%2C31&q=${title}&btnG=`
+}
+
 function SingleResult(props: {
   paragraph: ParsedArticleParagraphStandalone;
   key: string;
@@ -14,7 +18,7 @@ function SingleResult(props: {
   return (
     <div
       className="single-result-container"
-      onClick={() => window.open(props.paragraph.head.xmlFullTextDownloadLink)}
+      onClick={() => window.open(createGoogleScholarsQueryLink(props.paragraph.head.title))}
     >
       <h4 aria-label="paper's title">{props.paragraph.head.title}</h4>
       <p aria-label="correlated paragraph">...{props.paragraph.body}...</p>

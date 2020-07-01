@@ -1,34 +1,6 @@
 {
   "version": 1,
   "projects": {
-    "health-site-scraper": {
-      "root": "libs/health-site-scraper",
-      "sourceRoot": "libs/health-site-scraper/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "config": "libs/health-site-scraper/.eslintrc",
-            "tsConfig": [
-              "libs/health-site-scraper/tsconfig.lib.json",
-              "libs/health-site-scraper/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/health-site-scraper/**"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/health-site-scraper/jest.config.js",
-            "tsConfig": "libs/health-site-scraper/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "scholars-scraper": {
       "root": "libs/scholars-scraper",
       "sourceRoot": "libs/scholars-scraper/src",

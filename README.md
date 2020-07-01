@@ -1,6 +1,6 @@
-# Food As Medicine
+# Schopal
 
-[The Design Doc](https://docs.google.com/document/d/1JxUk9ei88Z6hSeEQPahUhCcOT53X2KngqEfCtplOAbg/edit?usp=sharing)
+[The Design Doc](https://docs.google.com/document/d/1Kcmq8WQPmOR5ij3Ew3ZLjD97PZUZ5lFbQ5T8dc-39Ag/edit#)
 
 ## Objective
 

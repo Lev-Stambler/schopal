@@ -19,9 +19,6 @@
     }
   },
   "projects": {
-    "health-site-scraper": {
-      "tags": []
-    },
     "scholars-scraper": {
       "tags": []
     },
