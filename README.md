@@ -30,14 +30,15 @@ Priorities:
 This project will be built using Typescript. Typescript was chosen because this project involves web scraping, a frontend, and JSON objects. Typescript’s integration with JSON objects and strong typing will allow for easier scraping and integration with APIs. Typescript’s native support for promises will allow for making multiple API and web scraping calls concurrently.
 Moreover, I have the most experience in Typescript and, due to the project’s short time frame, rapid development is prioritized.
 
+[Nx](https://nx.dev/) will be used to manage the repository. Nx is a tool for managing mono repos and multi package repos. [Jest](https://jestjs.io/) will be used to run the unit tests.
+
+
 ## Deployment
 Frontend deployment occurs automatically via Netlify once a branch is merged into master.
 In order to deploy the backend to Heroku:
 - Make sure to be a contributor on the [Heroku Deploy Repo](https://github.com/Lev-Stambler/schopal-heroku-deploy)
 - Clone the Heroku Deploy Repo into the parent directory of this repository
 - Run `npm run deploy:heroku` 
-
-[Nx](https://nx.dev/) will be used to manage the repository. Nx is a tool for managing mono repos and multi package repos. [Jest](https://jestjs.io/) will be used to run the unit tests.
 
 ## NX
 
