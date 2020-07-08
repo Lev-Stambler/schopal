@@ -5,6 +5,8 @@
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
+    "deploy:heroku": "nx build --prod api-express && npm run copy:heroku && (cd ../schopal-heroku-deploy/ && git commit -am \"auto commit\" && git push)",
+    "copy:heroku": "cp -r dist/apps/api-express/* ../schopal-heroku-deploy/ && cp package.json ../",
     "build": "nx build",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
@@ -29,6 +31,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.10.2",
+    "aws-serverless-express": "^3.3.8",
     "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.5",
     "document-register-element": "1.13.1",

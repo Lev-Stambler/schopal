@@ -32,6 +32,14 @@ Moreover, I have the most experience in Typescript and, due to the project’s s
 
 [Nx](https://nx.dev/) will be used to manage the repository. Nx is a tool for managing mono repos and multi package repos. [Jest](https://jestjs.io/) will be used to run the unit tests.
 
+
+## Deployment
+Frontend deployment occurs automatically via Netlify once a branch is merged into master.
+In order to deploy the backend to Heroku:
+- Make sure to be a contributor on the [Heroku Deploy Repo](https://github.com/Lev-Stambler/schopal-heroku-deploy)
+- Clone the Heroku Deploy Repo into the parent directory of this repository
+- Run `npm run deploy:heroku` 
+
 ## NX
 
 This project was generated using [Nx](https://nx.dev).
