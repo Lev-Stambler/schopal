@@ -7,7 +7,11 @@ import router from './controllers';
 const app = express();
 app.use(
   cors({
-    origin: ['http://localhost:4200', 'https://schopal.neocities.org'],
+    origin: [
+      'http://localhost:4200',
+      'https://schopal.netlify.app',
+      'https://schopal.neocities.org',
+    ],
   })
 );
 app.use(bodyParser.json());
