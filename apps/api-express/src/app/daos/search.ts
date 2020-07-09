@@ -17,8 +17,6 @@ export async function findQueryResults(
   // The query is passed in twice in order to not interfere with the cross feature
   const articleHeads = await runScholarsScraper(
     query,
-    // TODO this is a temporary fix, removing the entire recommendation, impact abstraction should be done
-    query,
     opts?.numberOfArticles || 25
   );
   const downloadProms: Promise<ParsedArticle>[] = articleHeads.map(

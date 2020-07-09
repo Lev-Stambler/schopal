@@ -1,1 +1,1 @@
-export * from './scholars-parser';
+export * from './europepmc-parser';

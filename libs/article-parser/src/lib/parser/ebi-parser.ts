@@ -2,7 +2,7 @@ import {
   ParsedArticle,
   Parser,
   ParsedArticleParagraph,
-  EbiParserOptions,
+  EuropePMCOptions,
 } from '@foodmedicine/interfaces';
 import * as cheerio from 'cheerio';
 
@@ -10,7 +10,7 @@ import * as cheerio from 'cheerio';
  * A parser for https://www.ebi.ac.uk/europepmc/webservices/rest/
  */
 export const EbiParser: Parser<ParsedArticle> = {
-  parserF: async (xml: string, opts?: EbiParserOptions) => {
+  parserF: async (xml: string, opts?: EuropePMCOptions) => {
     if (!opts?.parsedArticleHead) {
       throw 'Please add in the parsed head';
     }
@@ -22,10 +22,8 @@ export const EbiParser: Parser<ParsedArticle> = {
       (paragraphText) =>
         opts.getCorrelationScore(
           paragraphText,
-          opts.parsedArticleHead.impacted,
-          opts.parsedArticleHead.recommendation,
-          opts.parsedArticleHead.impactedSynonyms,
-          opts.parsedArticleHead.recommendationSynonyms
+          opts.parsedArticleHead.query,
+          opts.parsedArticleHead.querySynonyms,
         )
     );
     const article: ParsedArticle = {
