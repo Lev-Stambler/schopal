@@ -120,6 +120,20 @@
             "buildTarget": "api-express:build"
           }
         },
+        "serve-fullstack": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "nx serve api-express"
+              },
+              {
+                "command": "nx serve api-frontend"
+              }
+            ],
+            "parallel": true
+          }
+        },
         "lint": {
           "builder": "@nrwl/linter:lint",
           "options": {

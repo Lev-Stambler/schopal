@@ -2,7 +2,6 @@ import {
   ParsedArticleParagraphStandalone,
   ParsedArticle,
   ParsedArticleParagraph,
-  ArticleParagraphBacksUpClaim,
 } from '@foodmedicine/interfaces';
 import { runScholarsScraper } from '@foodmedicine/scholars-scraper';
 import * as articleParser from '@foodmedicine/article-parser';
@@ -40,8 +39,7 @@ export async function findQueryResults(
         return {
           head: article.head,
           // set default backsUpClaim to notApplicable. This later gets changed manually in the JSON file
-          backsUpClaim: ArticleParagraphBacksUpClaim.notApplicable,
-          ...paragraph,
+          ...paragraph
         };
       }
     );

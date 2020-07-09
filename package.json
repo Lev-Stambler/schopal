@@ -5,6 +5,7 @@
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
+    "fullstack:dev": "PORT=3333 && nx serve-fullstack",
     "deploy:heroku": "nx build --prod api-express && npm run copy:heroku && (cd ../schopal-heroku-deploy/ && git commit -am \"auto commit\" && git push)",
     "copy:heroku": "cp -r dist/apps/api-express/* ../schopal-heroku-deploy/ && cp package.json ../",
     "build": "nx build",
