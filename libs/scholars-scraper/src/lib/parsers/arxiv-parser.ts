@@ -4,6 +4,7 @@ import {
   ScholarsParserOpts,
 } from '@foodmedicine/interfaces';
 import * as xmlJs from 'xml2js';
+import { parse } from 'querystring';
 
 /**
  * A parser for http://export.arxiv.org/api/query
@@ -15,17 +16,23 @@ export const ArxivParser: Parser<ParsedArticleHead> = {
     }
     const parser = new xmlJs.Parser();
     const jsonRes = await parser.parseStringPromise(xml);
-    console.log(jsonRes);
-    const allResults = jsonRes.feed.entry
-    const parsedHeads: ParsedArticleHead[] = allResults.map((res) => {
-      return {
-        id: res.id[0],
-        title: res.title[0],
-        xmlFullTextDownloadLink: `https://www.ebi.ac.uk/europepmc/webservices/rest/${res.id[0]}/fullTextXML`,
-        query: opts.tag.query,
-        querySynonyms: opts.tag.querySynonyms,
-      };
-    });
+    const allResults = jsonRes.feed.entry;
+    const parsedHeads: ParsedArticleHead[] = allResults
+      .map((res) => {
+        const pdfDownloadLinks = res.link
+          .filter((linkItem) => linkItem.$.title === 'pdf')
+          .map((linkItem) => linkItem.$.href);
+        const fullTextDownloadLink = pdfDownloadLinks[0] || null;
+        return {
+          id: res.id,
+          title: res.title,
+          fullTextDownloadLink,
+          query: opts.tag.query,
+          querySynonyms: opts.tag.querySynonyms,
+        };
+      })
+      .filter((parsedHead) => parsedHead.fullTextDownloadLink !== null);
+    console.log(parsedHeads[0]);
     return parsedHeads;
   },
 };

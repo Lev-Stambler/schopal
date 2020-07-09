@@ -1,1 +1,2 @@
-export * from './ebi-parser';
+export * from './europepmc-parser';
+export * from './arxiv-parser';

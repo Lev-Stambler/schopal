@@ -4,10 +4,13 @@ import {
   ParsedArticle,
   ParsedArticleParagraph,
   EuropePMCOptions,
+  ScholarsDB,
+  ArxivOptions,
 } from '@foodmedicine/interfaces';
 import * as fetch from 'node-fetch';
 import { correlationWeights, cutOffs } from './correlation-constants';
 import * as natural from 'natural';
+import * as parsers from '../parser';
 
 const tokenizer = new natural.WordTokenizer();
 
@@ -42,16 +45,11 @@ function findWordsFreqFuzzy(words: string[], paragraph: string): number {
  * Compute the correlation score based off of the inputs
  * Current features include query frequencies, query synonym frequencies
  */
-function computeScore(
-  queryFreq: number,
-  querySynonymWordFreq: number,
-): number {
+function computeScore(queryFreq: number, querySynonymWordFreq: number): number {
   const queryScore = queryFreq * correlationWeights.queryWordFreq;
   const querySynonymScore =
     querySynonymWordFreq * correlationWeights.querySynonymWordFreq;
-  return (
-    querySynonymScore + queryScore
-  );
+  return querySynonymScore + queryScore;
 }
 
 function stemString(input: string) {
@@ -65,14 +63,11 @@ function getWholeParagraphCorrelationScore(
 ): ParsedArticleParagraph {
   const queryStem = stemString(query);
   const paragraphStemmed = stemString(paragraph);
-  const querySynonymFreq = findWordsFreqFuzzy(
-    querySynonyms,
-    paragraphStemmed
-  );
+  const querySynonymFreq = findWordsFreqFuzzy(querySynonyms, paragraphStemmed);
 
   const correlationScore = computeScore(
     findWordFreqFuzzy(queryStem, paragraphStemmed),
-    querySynonymFreq,
+    querySynonymFreq
   );
   return {
     body: paragraph,
@@ -150,14 +145,28 @@ function getShortestParagraphCorrelationScore(
 
 export async function evaluateArticle(
   articleHead: ParsedArticleHead,
-  parser: Parser<ParsedArticle>
+  db: ScholarsDB
 ): Promise<ParsedArticle> {
-  const inputXML = await downloadArticle(articleHead.xmlFullTextDownloadLink);
+  const inputArticle = await downloadArticle(articleHead.fullTextDownloadLink);
   console.info(
-    `Downloaded XML for ${articleHead.query} with url ${articleHead.xmlFullTextDownloadLink}`
+    `Downloaded data for ${articleHead.query} with url ${articleHead.fullTextDownloadLink}`
   );
-  // Parser functions return an array, but in this case, only the first result is relevant
-  return (await parser.parserF(inputXML, {
+  if (db === ScholarsDB.EUROPE_PMC) {
+    const parser = parsers.EuropePMCParser;
+    return (await parser.parserF(inputArticle, {
+      parsedArticleHead: articleHead,
+      getCorrelationScore: getShortestParagraphCorrelationScore,
+    } as EuropePMCOptions)) as ParsedArticle;
+  } else if (db === ScholarsDB.ARXIV) {
+    const parser = parsers.ArxivParser;
+    return (await parser.parserF(inputArticle, {
+      parsedArticleHead: articleHead,
+      getCorrelationScore: getShortestParagraphCorrelationScore,
+    } as ArxivOptions)) as ParsedArticle;
+  }
+
+  const parser = parsers.EuropePMCParser;
+  return (await parser.parserF(inputArticle, {
     parsedArticleHead: articleHead,
     getCorrelationScore: getShortestParagraphCorrelationScore,
   } as EuropePMCOptions)) as ParsedArticle;

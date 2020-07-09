@@ -11,11 +11,11 @@ export interface BaseParserOptions {
 
 interface ArticleParserOptions extends BaseParserOptions {
   getCorrelationScore: getCorrelationScoreFunction;
-}
-
-export interface EuropePMCOptions extends ArticleParserOptions {
   parsedArticleHead: ParsedArticleHead;
 }
+
+export type ArxivOptions = ArticleParserOptions
+export type EuropePMCOptions = ArticleParserOptions
 
 /**
  * Contains the outline information of an article
@@ -23,7 +23,7 @@ export interface EuropePMCOptions extends ArticleParserOptions {
 export interface ParsedArticleHead {
   id: string;
   title: string;
-  xmlFullTextDownloadLink: string;
+  fullTextDownloadLink: string;
   query: string;
   querySynonyms?: string[];
 }

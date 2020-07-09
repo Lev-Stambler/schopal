@@ -40,6 +40,7 @@
     "fs": "0.0.1-security",
     "natural": "^2.1.5",
     "node-fetch": "^2.6.0",
+    "pdf-parse": "^1.1.1",
     "promise-hook": "^0.1.4",
     "react": "16.12.0",
     "react-dom": "16.12.0",

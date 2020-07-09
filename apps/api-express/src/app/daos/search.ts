@@ -15,16 +15,16 @@ export async function findQueryResults(
     maxNumberOfParagraphs?: number;
   }
 ): Promise<ParsedArticleParagraphStandalone[]> {
-  // The query is passed in twice in order to not interfere with the cross feature
   const articleHeads = await runScholarsScraper(
     query,
+    db,
     opts?.numberOfArticles || 25
   );
   const downloadProms: Promise<ParsedArticle>[] = articleHeads.map(
     async (articleHead) => {
       const evaluatedArticle: ParsedArticle = await articleParser.evaluateArticle(
         articleHead,
-        articleParser.EbiParser
+        db,
       );
       return evaluatedArticle;
     }

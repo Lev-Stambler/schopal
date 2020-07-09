@@ -2,22 +2,22 @@ import {
   ParsedArticle,
   Parser,
   ParsedArticleParagraph,
-  EuropePMCOptions,
+  ArxivOptions,
 } from '@foodmedicine/interfaces';
-import * as cheerio from 'cheerio';
+import * as pdf from 'pdf-parse';
+
 
 /**
  * A parser for https://www.ebi.ac.uk/europepmc/webservices/rest/
  */
-export const EbiParser: Parser<ParsedArticle> = {
-  parserF: async (xml: string, opts?: EuropePMCOptions) => {
+export const ArxivParser: Parser<ParsedArticle> = {
+  parserF: async (fileData: string, opts?: ArxivOptions) => {
     if (!opts?.parsedArticleHead) {
       throw 'Please add in the parsed head';
     }
-    const $ = cheerio.load(xml);
-    const paragraphTexts: string[] = $('p')
-      .map((i, el) => $(el).text())
-      .get();
+    const pdfData = await pdf(fileData);
+    console.log(pdfData.text)
+    const paragraphTexts: string[] = pdfData.text.split('.')
     const paragraphs: ParsedArticleParagraph[] = paragraphTexts.map(
       (paragraphText) =>
         opts.getCorrelationScore(

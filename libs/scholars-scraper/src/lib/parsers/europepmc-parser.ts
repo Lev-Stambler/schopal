@@ -20,7 +20,7 @@ export const EuropePMCParser: Parser<ParsedArticleHead> = {
       return {
         id: res.id[0],
         title: res.title[0],
-        xmlFullTextDownloadLink: `https://www.ebi.ac.uk/europepmc/webservices/rest/${res.id[0]}/fullTextXML`,
+        fullTextDownloadLink: `https://www.ebi.ac.uk/europepmc/webservices/rest/${res.id[0]}/fullTextXML`,
         query: opts.tag.query,
         querySynonyms: opts.tag.querySynonyms,
       };
