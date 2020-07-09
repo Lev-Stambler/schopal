@@ -46,6 +46,11 @@ export interface Parser<IRet> {
   parserF: (inputSource: string, opts?: any) => Promise<IRet[] | IRet>;
 }
 
+export enum ScholarsDB {
+  ARXIV = 0,
+  EUROPE_PMC,
+}
+
 export interface ScholarsParserOpts extends UrlWithTag {
   tag: {
     query: string;

@@ -2,12 +2,14 @@ import {
   ParsedArticleParagraphStandalone,
   ParsedArticle,
   ParsedArticleParagraph,
+  ScholarsDB,
 } from '@foodmedicine/interfaces';
 import { runScholarsScraper } from '@foodmedicine/scholars-scraper';
 import * as articleParser from '@foodmedicine/article-parser';
 
 export async function findQueryResults(
   query: string,
+  db: ScholarsDB,
   opts?: {
     numberOfArticles?: number;
     maxNumberOfParagraphs?: number;

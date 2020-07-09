@@ -5,6 +5,7 @@ import { ReactComponent as Logo } from '../../logo.svg';
 import './search.css';
 import { onSearch } from './onsearch';
 import {Link} from 'react-router-dom'
+import { ScholarsDB } from '@foodmedicine/interfaces';
 
 export default function SearchPage() {
   const history = useHistory();
@@ -17,7 +18,8 @@ export default function SearchPage() {
           within open source scholarly research!
         </h1>
       </header>
-      <SearchBar onSearch={(query) => onSearch(query, history)} />
+      {/* TODO add option to choose DB */}
+      <SearchBar onSearch={(query) => onSearch(query, ScholarsDB.ARXIV, history)} />
       <p>or</p>
       <p><Link to="/info">Find out more</Link></p>
     </div>
