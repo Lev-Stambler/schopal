@@ -23,7 +23,7 @@ function createArxivUrl(
 export async function runArxivScrapers(
   query: string,
   querySynonyms: string[],
-  pageSize = 25
+  pageSize: number
 ): Promise<ParsedArticleHead[]> {
   const queryUrl = createArxivUrl(query, pageSize);
   const remedyScraper = new Scraper<ParsedArticleHead>(ArxivParser, {

@@ -43,6 +43,9 @@
     "api-frontend-e2e": {
       "tags": [],
       "implicitDependencies": ["api-frontend"]
+    },
+    "pdf-explorer": {
+      "tags": []
     }
   }
 }

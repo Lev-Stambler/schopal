@@ -40,11 +40,12 @@ export default function Results() {
   const [errMsg, setErrMsg] = useState<string>(null);
   const query = queryParams.get('query');
   const db = queryParams.get('db');
+  const numberOfArticles = queryParams.get('numberOfArticles');
   async function search(query: string): Promise<void> {
     setIsLoading(true);
     setErrMsg(null);
     try {
-      const ret = await fetch(environment.baseApiUrl + `/search?q=${query}&db=${db}`);
+      const ret = await fetch(environment.baseApiUrl + `/search?q=${query}&db=${db}&numberOfArticles=${numberOfArticles}`);
       const body = await ret.json();
       setResults(body as ParsedArticleParagraphStandalone[]);
     } catch (e) {

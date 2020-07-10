@@ -14,11 +14,6 @@ import * as parsers from '../parser';
 
 const tokenizer = new natural.WordTokenizer();
 
-async function downloadArticle(url: string): Promise<string> {
-  const ret = await fetch(url);
-  return await ret.text();
-}
-
 /**
  * Find word frequencies through fuzzy search
  */
@@ -147,26 +142,25 @@ export async function evaluateArticle(
   articleHead: ParsedArticleHead,
   db: ScholarsDB
 ): Promise<ParsedArticle> {
-  const inputArticle = await downloadArticle(articleHead.fullTextDownloadLink);
   console.info(
     `Downloaded data for ${articleHead.query} with url ${articleHead.fullTextDownloadLink}`
   );
   if (db === ScholarsDB.EUROPE_PMC) {
     const parser = parsers.EuropePMCParser;
-    return (await parser.parserF(inputArticle, {
+    return (await parser.parserF(articleHead.fullTextDownloadLink, {
       parsedArticleHead: articleHead,
       getCorrelationScore: getShortestParagraphCorrelationScore,
     } as EuropePMCOptions)) as ParsedArticle;
   } else if (db === ScholarsDB.ARXIV) {
     const parser = parsers.ArxivParser;
-    return (await parser.parserF(inputArticle, {
+    return (await parser.parserF(articleHead.fullTextDownloadLink, {
       parsedArticleHead: articleHead,
       getCorrelationScore: getShortestParagraphCorrelationScore,
     } as ArxivOptions)) as ParsedArticle;
   }
 
   const parser = parsers.EuropePMCParser;
-  return (await parser.parserF(inputArticle, {
+  return (await parser.parserF(articleHead.fullTextDownloadLink, {
     parsedArticleHead: articleHead,
     getCorrelationScore: getShortestParagraphCorrelationScore,
   } as EuropePMCOptions)) as ParsedArticle;

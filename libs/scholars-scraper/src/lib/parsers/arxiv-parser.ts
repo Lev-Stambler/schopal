@@ -4,7 +4,6 @@ import {
   ScholarsParserOpts,
 } from '@foodmedicine/interfaces';
 import * as xmlJs from 'xml2js';
-import { parse } from 'querystring';
 
 /**
  * A parser for http://export.arxiv.org/api/query

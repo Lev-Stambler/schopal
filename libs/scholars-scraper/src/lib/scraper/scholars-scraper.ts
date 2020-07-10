@@ -13,7 +13,7 @@ import { getSynonyms } from '@foodmedicine/word-explorer';
 export async function runScholarsScraper(
   query: string,
   db: ScholarsDB,
-  pageSize = 25
+  pageSize: number
 ): Promise<ParsedArticleHead[]> {
   const querySynonyms = await getSynonyms(query);
   if (db === ScholarsDB.EUROPE_PMC) {

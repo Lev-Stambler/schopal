@@ -24,7 +24,7 @@ function createEuropePMCUrl(
 export async function runEuropePMCScrapers(
   query: string,
   querySynonyms: string[],
-  pageSize = 10
+  pageSize: number
 ): Promise<ParsedArticleHead[]> {
   const queryUrl = createEuropePMCUrl(query, pageSize);
   const remedyScraper = new Scraper<ParsedArticleHead>(EuropePMCParser, {
