@@ -1,0 +1,5 @@
+export const constants = {
+  MIN_TAB_COUNT: 5,
+  SENTENCES_PER_PARAGRAPH: 5,
+  MIN_CHAR_COUNT_PER_PARAGRAPH: 20,
+};
