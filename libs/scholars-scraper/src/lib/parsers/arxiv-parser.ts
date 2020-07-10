@@ -31,7 +31,6 @@ export const ArxivParser: Parser<ParsedArticleHead> = {
         };
       })
       .filter((parsedHead) => parsedHead.fullTextDownloadLink !== null);
-    console.log(parsedHeads[0]);
     return parsedHeads;
   },
 };
