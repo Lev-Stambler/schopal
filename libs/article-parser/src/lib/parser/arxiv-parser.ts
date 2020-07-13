@@ -12,7 +12,7 @@ import { getParagraphsFromPDFUrl } from '@foodmedicine/pdf-explorer';
 export const ArxivParser: Parser<ParsedArticle> = {
   parserF: async (fileUrl: string, opts?: ArxivOptions) => {
     if (!opts?.parsedArticleHead) {
-      throw 'Please add in the parsed head';
+      throw new Error('Please add in the parsed head');
     }
     const paragraphTexts = await getParagraphsFromPDFUrl(fileUrl);
     try {
