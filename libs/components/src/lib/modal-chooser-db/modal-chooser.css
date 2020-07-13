@@ -1,0 +1,18 @@
+.search-bar-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 4fr 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    justify-content: center;
+    align-items: top;
+}
+
+.search-bar-container button {
+    height: 30px;
+    background: lightblue;
+    border: 0;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.555);
+    margin-top: 0.2rem;
+    cursor: pointer;
+}
