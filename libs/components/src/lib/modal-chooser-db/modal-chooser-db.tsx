@@ -35,7 +35,7 @@ export function ModalChooserDB(props: ModalChooseProps) {
 
   return (
     <div>
-      <button onClick={openModal}>Open Modal</button>
+      <button onClick={openModal}>Select a scholarly database</button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
