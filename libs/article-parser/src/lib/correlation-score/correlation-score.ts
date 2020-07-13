@@ -57,11 +57,11 @@ function getWholeParagraphCorrelationScore(
   querySynonyms: string[]
 ): ParsedArticleParagraph {
   const queryStem = stemString(query);
-  const paragraphStemmed = stemString(paragraph);
-  const querySynonymFreq = findWordsFreqFuzzy(querySynonyms, paragraphStemmed);
+  const paragraphStem = stemString(paragraph);
+  const querySynonymFreq = findWordsFreqFuzzy(querySynonyms, paragraphStem);
 
   const correlationScore = computeScore(
-    findWordFreqFuzzy(queryStem, paragraphStemmed),
+    findWordFreqFuzzy(queryStem, paragraphStem),
     querySynonymFreq
   );
   return {
