@@ -120,6 +120,20 @@
             "buildTarget": "api-express:build"
           }
         },
+        "serve-fullstack": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "nx serve api-express"
+              },
+              {
+                "command": "nx serve api-frontend"
+              }
+            ],
+            "parallel": true
+          }
+        },
         "lint": {
           "builder": "@nrwl/linter:lint",
           "options": {
@@ -302,6 +316,34 @@
             "config": "apps/api-frontend-e2e/.eslintrc",
             "tsConfig": ["apps/api-frontend-e2e/tsconfig.e2e.json"],
             "exclude": ["**/node_modules/**", "!apps/api-frontend-e2e/**"]
+          }
+        }
+      }
+    },
+    "pdf-explorer": {
+      "root": "libs/pdf-explorer",
+      "sourceRoot": "libs/pdf-explorer/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "libs/pdf-explorer/.eslintrc",
+            "tsConfig": [
+              "libs/pdf-explorer/tsconfig.lib.json",
+              "libs/pdf-explorer/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/pdf-explorer/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/pdf-explorer/jest.config.js",
+            "tsConfig": "libs/pdf-explorer/tsconfig.spec.json",
+            "passWithNoTests": true
           }
         }
       }

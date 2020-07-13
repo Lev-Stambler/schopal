@@ -2,15 +2,22 @@ import {
   ParsedArticle,
   Parser,
   ParsedArticleParagraph,
-  EbiParserOptions,
+  EuropePMCOptions,
 } from '@foodmedicine/interfaces';
+import fetch from 'node-fetch'
 import * as cheerio from 'cheerio';
+
+async function downloadArticle(url: string): Promise<string> {
+  const ret = await fetch(url);
+  return await ret.text();
+}
 
 /**
  * A parser for https://www.ebi.ac.uk/europepmc/webservices/rest/
  */
-export const EbiParser: Parser<ParsedArticle> = {
-  parserF: async (xml: string, opts?: EbiParserOptions) => {
+export const EuropePMCParser: Parser<ParsedArticle> = {
+  parserF: async (xmlDownloadLink: string, opts?: EuropePMCOptions) => {
+    const xml = await downloadArticle(xmlDownloadLink);
     if (!opts?.parsedArticleHead) {
       throw 'Please add in the parsed head';
     }
@@ -22,10 +29,8 @@ export const EbiParser: Parser<ParsedArticle> = {
       (paragraphText) =>
         opts.getCorrelationScore(
           paragraphText,
-          opts.parsedArticleHead.impacted,
-          opts.parsedArticleHead.recommendation,
-          opts.parsedArticleHead.impactedSynonyms,
-          opts.parsedArticleHead.recommendationSynonyms
+          opts.parsedArticleHead.query,
+          opts.parsedArticleHead.querySynonyms
         )
     );
     const article: ParsedArticle = {

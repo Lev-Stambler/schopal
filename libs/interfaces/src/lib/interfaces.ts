@@ -1,15 +1,8 @@
-export enum ArticleParagraphBacksUpClaim {
-  yes = 'y',
-  no = 'n',
-  notApplicable = 'na',
-}
-
 type getCorrelationScoreFunction = (
   paragraph: string,
-  impacted: string,
-  recommendation: string,
-  impactedSynonyms: string[],
-  recommendationSynonyms: string[]
+  query: string,
+  querySynonyms: string[],
+  maintainWithinPercent?: number
 ) => ParsedArticleParagraph;
 
 export interface BaseParserOptions {
@@ -18,25 +11,11 @@ export interface BaseParserOptions {
 
 interface ArticleParserOptions extends BaseParserOptions {
   getCorrelationScore: getCorrelationScoreFunction;
-}
-
-export interface EbiParserOptions extends ArticleParserOptions {
   parsedArticleHead: ParsedArticleHead;
 }
 
-interface RecommendationInfo {
-  filename?: string;
-  recommendation: string;
-}
-
-export interface HealthRemedies {
-  impacted: string;
-  recommendations: RecommendationInfo[];
-}
-
-export type ImpactFileListItem = HealthRemedies;
-
-export type ImpactFileList = ImpactFileListItem[];
+export type ArxivOptions = ArticleParserOptions
+export type EuropePMCOptions = ArticleParserOptions
 
 /**
  * Contains the outline information of an article
@@ -44,11 +23,9 @@ export type ImpactFileList = ImpactFileListItem[];
 export interface ParsedArticleHead {
   id: string;
   title: string;
-  xmlFullTextDownloadLink: string;
-  impacted: string;
-  recommendation: string;
-  impactedSynonyms: string[];
-  recommendationSynonyms: string[];
+  fullTextDownloadLink: string;
+  query: string;
+  querySynonyms?: string[];
 }
 
 export interface ParsedArticle {
@@ -61,21 +38,23 @@ export interface ParsedArticleParagraph {
   correlationScore: number;
 }
 
-export interface ParsedArticleParagraphStandalone
-  extends ParsedArticleParagraph {
-  head: ParsedArticleHead;
-  backsUpClaim: ArticleParagraphBacksUpClaim;
+export interface ParsedArticleParagraphStandalone extends ParsedArticleParagraph {
+  head: ParsedArticleHead
 }
 
 export interface Parser<IRet> {
   parserF: (inputSource: string, opts?: any) => Promise<IRet[] | IRet>;
 }
 
+export enum ScholarsDB {
+  ARXIV = 0,
+  EUROPE_PMC,
+}
+
 export interface ScholarsParserOpts extends UrlWithTag {
   tag: {
-    recommendation: string;
-    impacted: string;
-    impactedSynonyms: string[];
+    query: string;
+    querySynonyms: string[];
   };
 }
 

@@ -2,30 +2,29 @@ import {
   ParsedArticleParagraphStandalone,
   ParsedArticle,
   ParsedArticleParagraph,
-  ArticleParagraphBacksUpClaim,
+  ScholarsDB,
 } from '@foodmedicine/interfaces';
 import { runScholarsScraper } from '@foodmedicine/scholars-scraper';
 import * as articleParser from '@foodmedicine/article-parser';
 
 export async function findQueryResults(
   query: string,
+  db: ScholarsDB,
   opts?: {
     numberOfArticles?: number;
     maxNumberOfParagraphs?: number;
   }
 ): Promise<ParsedArticleParagraphStandalone[]> {
-  // The query is passed in twice in order to not interfere with the cross feature
   const articleHeads = await runScholarsScraper(
     query,
-    // TODO this is a temporary fix, removing the entire recommendation, impact abstraction should be done
-    query,
+    db,
     opts?.numberOfArticles || 25
   );
   const downloadProms: Promise<ParsedArticle>[] = articleHeads.map(
     async (articleHead) => {
       const evaluatedArticle: ParsedArticle = await articleParser.evaluateArticle(
         articleHead,
-        articleParser.EbiParser
+        db,
       );
       return evaluatedArticle;
     }
@@ -41,8 +40,6 @@ export async function findQueryResults(
       (paragraph: ParsedArticleParagraph) => {
         return {
           head: article.head,
-          // set default backsUpClaim to notApplicable. This later gets changed manually in the JSON file
-          backsUpClaim: ArticleParagraphBacksUpClaim.notApplicable,
           ...paragraph,
         };
       }

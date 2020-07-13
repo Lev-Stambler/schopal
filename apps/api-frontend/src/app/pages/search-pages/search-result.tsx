@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { environment } from '../../../environments/environment';
-import { ParsedArticleParagraphStandalone } from '@foodmedicine/interfaces';
+import { ParsedArticleParagraphStandalone, ScholarsDB } from '@foodmedicine/interfaces';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import { useLocation, useHistory } from 'react-router-dom';
 import { onSearch } from './onsearch';
@@ -39,11 +39,13 @@ export default function Results() {
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState<string>(null);
   const query = queryParams.get('query');
+  const db = queryParams.get('db');
+  const numberOfArticles = queryParams.get('numberOfArticles');
   async function search(query: string): Promise<void> {
     setIsLoading(true);
     setErrMsg(null);
     try {
-      const ret = await fetch(environment.baseApiUrl + `/search?q=${query}`);
+      const ret = await fetch(environment.baseApiUrl + `/search?q=${query}&db=${db}&numberOfArticles=${numberOfArticles}`);
       const body = await ret.json();
       setResults(body as ParsedArticleParagraphStandalone[]);
     } catch (e) {
@@ -71,7 +73,7 @@ export default function Results() {
           <p>Search again</p>
           <SearchBar<void>
             onSearch={(query) => {
-              onSearch(query, history);
+              onSearch(query, parseInt(db) as ScholarsDB, history);
               window.location.reload();
             }}
           />

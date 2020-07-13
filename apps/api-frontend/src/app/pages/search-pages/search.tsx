@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SearchBar } from '@foodmedicine/components';
 import { useHistory } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../logo.svg';
 import './search.css';
 import { onSearch } from './onsearch';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { ScholarsDB } from '@foodmedicine/interfaces';
+import { ModalChooserDB } from '@foodmedicine/components';
 
 export default function SearchPage() {
   const history = useHistory();
+  const [db, setDB] = useState(ScholarsDB.ARXIV);
   return (
     <div className="search">
       <header className="flex">
@@ -17,9 +20,16 @@ export default function SearchPage() {
           within open source scholarly research!
         </h1>
       </header>
-      <SearchBar onSearch={(query) => onSearch(query, history)} />
+      {/* TODO add material design */}
+      <div className="search-options">
+        <h5>Configure your search</h5>
+        <ModalChooserDB onClose={(newDB) => setDB(newDB)} initialDB={db} />
+      </div>
+      <SearchBar onSearch={(query) => onSearch(query, db, history)} />
       <p>or</p>
-      <p><Link to="/info">Find out more</Link></p>
+      <p>
+        <Link to="/info">Find out more</Link>
+      </p>
     </div>
   );
 }

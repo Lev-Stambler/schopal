@@ -2,6 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "rootDir": ".",
+    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -25,7 +26,8 @@
       ],
       "@foodmedicine/article-parser": ["libs/article-parser/src/index.ts"],
       "@foodmedicine/components": ["libs/components/src/index.ts"],
-      "@foodmedicine/word-explorer": ["libs/word-explorer/src/index.ts"]
+      "@foodmedicine/word-explorer": ["libs/word-explorer/src/index.ts"],
+      "@foodmedicine/pdf-explorer": ["libs/pdf-explorer/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

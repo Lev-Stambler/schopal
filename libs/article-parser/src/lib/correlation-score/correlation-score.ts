@@ -3,18 +3,16 @@ import {
   Parser,
   ParsedArticle,
   ParsedArticleParagraph,
-  EbiParserOptions,
+  EuropePMCOptions,
+  ScholarsDB,
+  ArxivOptions,
 } from '@foodmedicine/interfaces';
 import * as fetch from 'node-fetch';
 import { correlationWeights, cutOffs } from './correlation-constants';
 import * as natural from 'natural';
+import * as parsers from '../parser';
 
 const tokenizer = new natural.WordTokenizer();
-
-async function downloadArticle(url: string): Promise<string> {
-  const ret = await fetch(url);
-  return await ret.text();
-}
 
 /**
  * Find word frequencies through fuzzy search
@@ -40,36 +38,13 @@ function findWordsFreqFuzzy(words: string[], paragraph: string): number {
 
 /**
  * Compute the correlation score based off of the inputs
- * Current features include impact frequencies, recommendation frequencies, impact x recommendation
- * Paragraph length
+ * Current features include query frequencies, query synonym frequencies
  */
-function computeScore(
-  impactFreq: number,
-  recommendationFreq: number,
-  impactSynonymFreq: number,
-  recommendationSynonymFreq: number,
-  paragraphWordCount: number
-): number {
-  const impactScore = impactFreq * correlationWeights.impactWordFreq;
-  const recommendationScore =
-    recommendationFreq * correlationWeights.recommendationWordFreq;
-  const impactSynonymScore =
-    impactSynonymFreq * correlationWeights.impactSynonymWordFreq;
-  const recommendationSynonymScore =
-    recommendationSynonymFreq *
-    correlationWeights.recommendationSynonymWordFreq;
-  const crossScore =
-    impactFreq *
-    recommendationFreq *
-    correlationWeights.impactCrossRecommendation;
-  // ensures that both impact and recommendation are seen in the same paragraph
-  return (
-    impactScore +
-    recommendationScore +
-    crossScore +
-    impactSynonymScore +
-    recommendationSynonymScore
-  );
+function computeScore(queryFreq: number, querySynonymWordFreq: number): number {
+  const queryScore = queryFreq * correlationWeights.queryWordFreq;
+  const querySynonymScore =
+    querySynonymWordFreq * correlationWeights.querySynonymWordFreq;
+  return querySynonymScore + queryScore;
 }
 
 function stemString(input: string) {
@@ -78,29 +53,16 @@ function stemString(input: string) {
 
 function getWholeParagraphCorrelationScore(
   paragraph: string,
-  impacted: string,
-  recommendation: string,
-  impactedSynonyms: string[],
-  recommendationSynonyms: string[]
+  query: string,
+  querySynonyms: string[]
 ): ParsedArticleParagraph {
-  const impactedStem = stemString(impacted);
-  const paragraphStemmed = stemString(paragraph);
-  const recommendationStem = stemString(recommendation);
-  const impactSynonymFreq = findWordsFreqFuzzy(
-    impactedSynonyms,
-    paragraphStemmed
-  );
-  const recommendationSynonymFreq = findWordsFreqFuzzy(
-    recommendationSynonyms,
-    paragraphStemmed
-  );
+  const queryStem = stemString(query);
+  const paragraphStem = stemString(paragraph);
+  const querySynonymFreq = findWordsFreqFuzzy(querySynonyms, paragraphStem);
 
   const correlationScore = computeScore(
-    findWordFreqFuzzy(impactedStem, paragraphStemmed),
-    findWordFreqFuzzy(recommendationStem, paragraphStemmed),
-    impactSynonymFreq,
-    recommendationSynonymFreq,
-    paragraph.split(' ').length
+    findWordFreqFuzzy(queryStem, paragraphStem),
+    querySynonymFreq
   );
   return {
     body: paragraph,
@@ -115,10 +77,8 @@ function getWholeParagraphCorrelationScore(
  */
 function getShortestParagraphCorrelationScore(
   paragraph: string,
-  impacted: string,
-  recommendation: string,
-  impactedSynonyms: string[],
-  recommendationSynonyms: string[],
+  query: string,
+  querySynonyms: string[],
   maintainWithinPercent = cutOffs.maintainScoreWithinPercent
 ): ParsedArticleParagraph {
   function calculatePercentageDifference(x: number, y: number): number {
@@ -131,10 +91,8 @@ function getShortestParagraphCorrelationScore(
   }
   const initScore = getWholeParagraphCorrelationScore(
     paragraph,
-    impacted,
-    recommendation,
-    impactedSynonyms,
-    recommendationSynonyms
+    query,
+    querySynonyms
   ).correlationScore;
   let currentScore = initScore;
   let leftInd = 0;
@@ -148,10 +106,8 @@ function getShortestParagraphCorrelationScore(
   ) {
     currentScore = getWholeParagraphCorrelationScore(
       sentences.slice(leftInd, rightIndNonInclusive).join('.'),
-      impacted,
-      recommendation,
-      impactedSynonyms,
-      recommendationSynonyms
+      query,
+      querySynonyms
     ).correlationScore;
     leftInd++;
   }
@@ -164,10 +120,8 @@ function getShortestParagraphCorrelationScore(
   ) {
     currentScore = getWholeParagraphCorrelationScore(
       sentences.slice(leftInd, rightIndNonInclusive).join('.'),
-      impacted,
-      recommendation,
-      impactedSynonyms,
-      recommendationSynonyms
+      query,
+      querySynonyms
     ).correlationScore;
     rightIndNonInclusive--;
   }
@@ -186,17 +140,28 @@ function getShortestParagraphCorrelationScore(
 
 export async function evaluateArticle(
   articleHead: ParsedArticleHead,
-  parser: Parser<ParsedArticle>
+  db: ScholarsDB
 ): Promise<ParsedArticle> {
-  const inputXML = await downloadArticle(articleHead.xmlFullTextDownloadLink);
   console.info(
-    `Downloaded XML for ${articleHead.impacted} for ${articleHead.recommendation} with url ${articleHead.xmlFullTextDownloadLink}`
+    `Downloaded data for ${articleHead.query} with url ${articleHead.fullTextDownloadLink}`
   );
-  // Parser functions return an array, but in this case, only the first result is relevant
-  return (await parser.parserF(inputXML, {
+  if (db === ScholarsDB.EUROPE_PMC) {
+    const parser = parsers.EuropePMCParser;
+    return (await parser.parserF(articleHead.fullTextDownloadLink, {
+      parsedArticleHead: articleHead,
+      getCorrelationScore: getShortestParagraphCorrelationScore,
+    } as EuropePMCOptions)) as ParsedArticle;
+  } else if (db === ScholarsDB.ARXIV) {
+    const parser = parsers.ArxivParser;
+    return (await parser.parserF(articleHead.fullTextDownloadLink, {
+      parsedArticleHead: articleHead,
+      getCorrelationScore: getShortestParagraphCorrelationScore,
+    } as ArxivOptions)) as ParsedArticle;
+  }
+
+  const parser = parsers.EuropePMCParser;
+  return (await parser.parserF(articleHead.fullTextDownloadLink, {
     parsedArticleHead: articleHead,
-    impacted: articleHead.impacted,
-    recommendation: articleHead.recommendation,
     getCorrelationScore: getShortestParagraphCorrelationScore,
-  } as EbiParserOptions)) as ParsedArticle;
+  } as EuropePMCOptions)) as ParsedArticle;
 }
