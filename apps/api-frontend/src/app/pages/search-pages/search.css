@@ -1,3 +1,14 @@
 .app .search p {
   text-align: center;
 }
+
+.app .search .search-options {
+  align-items: center;
+  border: 1px dotted black;
+  border-radius: 0.5rem;
+  display: grid;
+  justify-content: left;
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  width: 100%;
+}

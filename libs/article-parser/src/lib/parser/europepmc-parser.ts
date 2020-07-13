@@ -4,6 +4,7 @@ import {
   ParsedArticleParagraph,
   EuropePMCOptions,
 } from '@foodmedicine/interfaces';
+import fetch from 'node-fetch'
 import * as cheerio from 'cheerio';
 
 async function downloadArticle(url: string): Promise<string> {
