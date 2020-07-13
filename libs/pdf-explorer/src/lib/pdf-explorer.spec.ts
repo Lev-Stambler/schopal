@@ -159,7 +159,7 @@ References`;
 describe('pdfExplorer', () => {
   it('should work to return paragraphs', async () => {
     const paragraphs = splitTextToParagraphs(sampleText);
-    expect(paragraphs.length).toBeGreaterThan(5);
+    expect(paragraphs.length).toBe(14);
     expect(paragraphs[0].length).toBeGreaterThanOrEqual(20);
   });
 });

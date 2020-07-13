@@ -29,6 +29,11 @@ function groupSentencesIntoParagraphs(sentences: string[]): string[] {
   return syntheticParagraphs;
 }
 
+/**
+ * Split text into paragraph by first attempting to split by the tab character.
+ * If the tab character does not appear more than {@code MIN_TAB_COUNT} number of times,
+ * synthetically create paragraphs by grouping sentences together.
+ */
 export function splitTextToParagraphs(rawText: string): string[] {
   const tabCount = getCharCount(rawText, /\t/g);
   if (tabCount > constants.MIN_TAB_COUNT) {
