@@ -39,8 +39,7 @@ export function ModalChooserDB(props: ModalChooseProps) {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
+        contentLabel="Choose scholarly database to use for search"
       >
         <div>Select which database you would like to search</div>
         <form>
