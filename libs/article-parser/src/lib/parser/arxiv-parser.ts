@@ -4,8 +4,7 @@ import {
   ParsedArticleParagraph,
   ArxivOptions,
 } from '@foodmedicine/interfaces';
-import fetch from 'node-fetch'
-import pdf from 'pdf-parse'
+import { getParagraphsFromPDFUrl } from '@foodmedicine/pdf-explorer';
 
 /**
  * A parser for https://www.ebi.ac.uk/europepmc/webservices/rest/
@@ -13,14 +12,10 @@ import pdf from 'pdf-parse'
 export const ArxivParser: Parser<ParsedArticle> = {
   parserF: async (fileUrl: string, opts?: ArxivOptions) => {
     if (!opts?.parsedArticleHead) {
-      throw 'Please add in the parsed head';
+      throw new Error('Please add in the parsed head');
     }
+    const paragraphTexts = await getParagraphsFromPDFUrl(fileUrl);
     try {
-      const fetchRes = await fetch(fileUrl);
-      const buff = await fetchRes.buffer()
-      const pdfData = await pdf(buff)
-      console.log(pdfData);
-      const paragraphTexts: string[] = pdfData.text.split('.');
       const paragraphs: ParsedArticleParagraph[] = paragraphTexts.map(
         (paragraphText) =>
           opts.getCorrelationScore(

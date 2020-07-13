@@ -40,8 +40,7 @@ export async function findQueryResults(
       (paragraph: ParsedArticleParagraph) => {
         return {
           head: article.head,
-          // set default backsUpClaim to notApplicable. This later gets changed manually in the JSON file
-          ...paragraph
+          ...paragraph,
         };
       }
     );
