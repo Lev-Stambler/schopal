@@ -15,7 +15,7 @@ export const ArxivParser: Parser<ParsedArticleHead> = {
     }
     const parser = new xmlJs.Parser();
     const jsonRes = await parser.parseStringPromise(xml);
-    const allResults = jsonRes.feed.entry;
+    const allResults = jsonRes.feed.entry || [];
     const parsedHeads: ParsedArticleHead[] = allResults
       .map((res) => {
         const pdfDownloadLinks = res.link
