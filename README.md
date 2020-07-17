@@ -1,5 +1,5 @@
 # Schopal
-
+Find the [demo](https://schopal.netlify.app/#/)
 [The Design Doc](https://docs.google.com/document/d/1Kcmq8WQPmOR5ij3Ew3ZLjD97PZUZ5lFbQ5T8dc-39Ag/edit#)
 
 ## Objective
