@@ -2,6 +2,7 @@ import {
   Parser,
   ParsedArticleHead,
   ScholarsParserOpts,
+  ScholarsDB,
 } from '@foodmedicine/interfaces';
 import * as xmlJs from 'xml2js';
 
@@ -23,6 +24,7 @@ export const EuropePMCParser: Parser<ParsedArticleHead> = {
         fullTextDownloadLink: `https://www.ebi.ac.uk/europepmc/webservices/rest/${res.id[0]}/fullTextXML`,
         query: opts.tag.query,
         querySynonyms: opts.tag.querySynonyms,
+        DBType: ScholarsDB.EUROPE_PMC
       };
     });
     return parsedHeads;

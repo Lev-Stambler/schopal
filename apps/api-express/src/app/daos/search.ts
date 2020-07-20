@@ -10,7 +10,6 @@ import { cleanString } from '@foodmedicine/word-explorer'
 
 export async function findQueryResults(
   query: string,
-  db: ScholarsDB,
   opts?: {
     numberOfArticles?: number;
     maxNumberOfParagraphs?: number;
@@ -19,14 +18,13 @@ export async function findQueryResults(
   const cleanedQuery = cleanString(query);
   const articleHeads = await runScholarsScraper(
     cleanedQuery,
-    db,
+    ScholarsDB.RUN_ALL,
     opts?.numberOfArticles || 25
   );
   const downloadProms: Promise<ParsedArticle>[] = articleHeads.map(
     async (articleHead) => {
       const evaluatedArticle: ParsedArticle = await articleParser.evaluateArticle(
-        articleHead,
-        db,
+        articleHead
       );
       return evaluatedArticle;
     }
