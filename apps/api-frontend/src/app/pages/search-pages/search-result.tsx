@@ -46,7 +46,6 @@ export default function Results() {
     setErrMsg(null);
     try {
       const ret = await fetch(environment.baseApiUrl + `/search?q=${query}&db=${db}&numberOfArticles=${numberOfArticles}`, {
-        mode: 'cors',
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
