@@ -140,11 +140,12 @@ function getShortestParagraphCorrelationScore(
 
 export async function evaluateArticle(
   articleHead: ParsedArticleHead,
-  db: ScholarsDB
 ): Promise<ParsedArticle> {
   console.info(
     `Downloaded data for ${articleHead.query} with url ${articleHead.fullTextDownloadLink}`
   );
+
+  const db = articleHead.DBType;
   if (db === ScholarsDB.EUROPE_PMC) {
     const parser = parsers.EuropePMCParser;
     return (await parser.parserF(articleHead.fullTextDownloadLink, {

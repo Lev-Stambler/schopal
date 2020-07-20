@@ -14,13 +14,14 @@ interface ArticleParserOptions extends BaseParserOptions {
   parsedArticleHead: ParsedArticleHead;
 }
 
-export type ArxivOptions = ArticleParserOptions
-export type EuropePMCOptions = ArticleParserOptions
+export type ArxivOptions = ArticleParserOptions;
+export type EuropePMCOptions = ArticleParserOptions;
 
 /**
  * Contains the outline information of an article
  */
 export interface ParsedArticleHead {
+  DBType: ScholarsDB;
   id: string;
   title: string;
   fullTextDownloadLink: string;
@@ -38,8 +39,9 @@ export interface ParsedArticleParagraph {
   correlationScore: number;
 }
 
-export interface ParsedArticleParagraphStandalone extends ParsedArticleParagraph {
-  head: ParsedArticleHead
+export interface ParsedArticleParagraphStandalone
+  extends ParsedArticleParagraph {
+  head: ParsedArticleHead;
 }
 
 export interface Parser<IRet> {
@@ -47,7 +49,8 @@ export interface Parser<IRet> {
 }
 
 export enum ScholarsDB {
-  ARXIV = 0,
+  RUN_ALL = 0,
+  ARXIV,
   EUROPE_PMC,
 }
 

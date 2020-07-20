@@ -21,10 +21,10 @@ export default function SearchPage() {
         </h1>
       </header>
       {/* TODO add material design */}
-      <div className="search-options">
+      {/* <div className="search-options">
         <h5>Configure your search</h5>
         <ModalChooserDB onClose={(newDB) => setDB(newDB)} initialDB={db} />
-      </div>
+      </div> */}
       <SearchBar onSearch={(query) => onSearch(query, db, history)} />
       <p>or</p>
       <p>

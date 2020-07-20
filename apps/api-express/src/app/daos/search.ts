@@ -9,7 +9,6 @@ import * as articleParser from '@foodmedicine/article-parser';
 
 export async function findQueryResults(
   query: string,
-  db: ScholarsDB,
   opts?: {
     numberOfArticles?: number;
     maxNumberOfParagraphs?: number;
@@ -17,14 +16,13 @@ export async function findQueryResults(
 ): Promise<ParsedArticleParagraphStandalone[]> {
   const articleHeads = await runScholarsScraper(
     query,
-    db,
+    ScholarsDB.RUN_ALL,
     opts?.numberOfArticles || 25
   );
   const downloadProms: Promise<ParsedArticle>[] = articleHeads.map(
     async (articleHead) => {
       const evaluatedArticle: ParsedArticle = await articleParser.evaluateArticle(
-        articleHead,
-        db,
+        articleHead
       );
       return evaluatedArticle;
     }

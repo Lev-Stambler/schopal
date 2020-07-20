@@ -21,7 +21,7 @@ router.get(
     const query = req.query.q as string;
     const results = await findQueryResults(
       query,
-      parseInt(req.query.db as string) as ScholarsDB,
+      // parseInt(req.query.db as string) as ScholarsDB,
       {
         numberOfArticles: parseInt(req.query.numberOfArticles as string),
         maxNumberOfParagraphs: parseInt(
