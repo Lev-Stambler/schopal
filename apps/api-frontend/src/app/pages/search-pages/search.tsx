@@ -23,7 +23,7 @@ export default function SearchPage() {
         <div className="search-tips">
           <h4>A quick tip for getting the best search results</h4>
           <p>
-            Keep your search specific. So rather than searching for "fat", you
+            Keep your search specific. So, rather than searching for "fat", you
             could "water and fat magnetic resonance" or "fat soluble vitamin
             absorption"
           </p>
