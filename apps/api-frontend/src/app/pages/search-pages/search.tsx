@@ -19,10 +19,6 @@ export default function SearchPage() {
         </h1>
       </header>
       {/* TODO add material design */}
-      {/* <div className="search-options">
-        <h5>Configure your search</h5>
-        <ModalChooserDB onClose={(newDB) => setDB(newDB)} initialDB={db} />
-      </div> */}
       <SearchBar onSearch={(query) => onSearch(query, ScholarsDB.RUN_ALL, history)} />
       <p>or</p>
       <p>
