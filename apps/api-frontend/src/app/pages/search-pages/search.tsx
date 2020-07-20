@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SearchBar } from '@foodmedicine/components';
 import { useHistory } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../logo.svg';
 import './search.css';
 import { onSearch } from './onsearch';
 import { Link } from 'react-router-dom';
-import { ScholarsDB } from '@foodmedicine/interfaces';
 
 export default function SearchPage() {
   const history = useHistory();
@@ -19,11 +18,6 @@ export default function SearchPage() {
         </h1>
       </header>
       {/* TODO add material design */}
-<<<<<<< HEAD
-      <div className="search-options">
-        <h5>Configure your search</h5>
-        <ModalChooserDB onClose={(newDB) => setDB(newDB)} initialDB={db} />
-      </div>
       <div className="search-container">
         <SearchBar onSearch={(query) => onSearch(query, db, history)} />
         <div className="search-tips">
@@ -40,13 +34,6 @@ export default function SearchPage() {
           <Link to="/info">Find out more about Schopal</Link>
         </p>
       </div>
-=======
-      <SearchBar onSearch={(query) => onSearch(query, ScholarsDB.RUN_ALL, history)} />
-      <p>or</p>
-      <p>
-        <Link to="/info">Find out more</Link>
-      </p>
->>>>>>> c4c78599d97fbd905b64c9aa7ecc5aa1cd910718
     </div>
   );
 }
