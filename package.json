@@ -4,10 +4,10 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
-    "start": "nx serve",
+    "start": "node main.js",
     "fullstack:dev": "PORT=3333 && nx serve-fullstack",
-    "deploy:heroku": "nx build --prod api-express && npm run copy:heroku && (cd ../schopal-heroku-deploy/ && npm i && git commit -am \"auto commit\" && git push)",
-    "copy:heroku": "cp -r dist/apps/api-express/* ../schopal-heroku-deploy/ && cp package.json ../",
+    "deploy:heroku": "nx build --prod api-express && npm run copy:heroku && (cd ../schopal-heroku-deploy/ && git commit -am \"auto commit\" && git push)",
+    "copy:heroku": "cp -r dist/apps/api-express/* ../schopal-heroku-deploy/ && cp package.json ../schopal-heroku-deploy/ && cp package-lock.json ../schopal-heroku-deploy/",
     "build": "nx build",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
