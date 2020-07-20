@@ -226,7 +226,7 @@
             "polyfills": "apps/api-frontend/src/polyfills.ts",
             "tsConfig": "apps/api-frontend/tsconfig.app.json",
             "assets": [
-              "apps/api-frontend/src/favicon.ico",
+              "apps/api-frontend/src/favicon.png",
               "apps/api-frontend/src/assets"
             ],
             "styles": ["apps/api-frontend/src/styles.css"],

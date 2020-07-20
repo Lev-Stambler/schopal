@@ -6,11 +6,9 @@ import './search.css';
 import { onSearch } from './onsearch';
 import { Link } from 'react-router-dom';
 import { ScholarsDB } from '@foodmedicine/interfaces';
-import { ModalChooserDB } from '@foodmedicine/components';
 
 export default function SearchPage() {
   const history = useHistory();
-  const [db, setDB] = useState(ScholarsDB.ARXIV);
   return (
     <div className="search">
       <header className="flex">
@@ -21,6 +19,7 @@ export default function SearchPage() {
         </h1>
       </header>
       {/* TODO add material design */}
+<<<<<<< HEAD
       <div className="search-options">
         <h5>Configure your search</h5>
         <ModalChooserDB onClose={(newDB) => setDB(newDB)} initialDB={db} />
@@ -41,6 +40,13 @@ export default function SearchPage() {
           <Link to="/info">Find out more about Schopal</Link>
         </p>
       </div>
+=======
+      <SearchBar onSearch={(query) => onSearch(query, ScholarsDB.RUN_ALL, history)} />
+      <p>or</p>
+      <p>
+        <Link to="/info">Find out more</Link>
+      </p>
+>>>>>>> c4c78599d97fbd905b64c9aa7ecc5aa1cd910718
     </div>
   );
 }

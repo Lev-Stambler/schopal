@@ -2,6 +2,7 @@ import {
   Parser,
   ParsedArticleHead,
   ScholarsParserOpts,
+  ScholarsDB,
 } from '@foodmedicine/interfaces';
 import * as xmlJs from 'xml2js';
 
@@ -28,6 +29,7 @@ export const ArxivParser: Parser<ParsedArticleHead> = {
           fullTextDownloadLink,
           query: opts.tag.query,
           querySynonyms: opts.tag.querySynonyms,
+          DBType: ScholarsDB.ARXIV,
         };
       })
       .filter((parsedHead) => parsedHead.fullTextDownloadLink !== null);
