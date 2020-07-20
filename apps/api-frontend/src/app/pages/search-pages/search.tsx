@@ -25,11 +25,22 @@ export default function SearchPage() {
         <h5>Configure your search</h5>
         <ModalChooserDB onClose={(newDB) => setDB(newDB)} initialDB={db} />
       </div>
-      <SearchBar onSearch={(query) => onSearch(query, db, history)} />
-      <p>or</p>
-      <p>
-        <Link to="/info">Find out more</Link>
-      </p>
+      <div className="search-container">
+        <SearchBar onSearch={(query) => onSearch(query, db, history)} />
+        <div className="search-tips">
+          <h4>A quick tip for getting the best search results</h4>
+          <p>
+            Keep your search specific. So rather than searching for "fat", you
+            could "water and fat magnetic resonance" or "fat soluble vitamin
+            absorption"
+          </p>
+        </div>
+      </div>
+      <div className="info">
+        <p>
+          <Link to="/info">Find out more about Schopal</Link>
+        </p>
+      </div>
     </div>
   );
 }

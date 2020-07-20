@@ -49,7 +49,6 @@
     "react-modal": "^3.11.2",
     "react-router": "^5.2.0",
     "react-router-dom": "5.1.2",
-    "react-search-box": "^2.0.2",
     "react-spinners": "^0.9.0",
     "stopword": "^1.0.1",
     "synonyms": "^1.0.1",

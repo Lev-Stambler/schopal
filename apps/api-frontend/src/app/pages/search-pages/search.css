@@ -12,3 +12,12 @@
   padding: 0.5rem 1rem;
   width: 100%;
 }
+
+.app .search-tips p {
+  text-align: left;
+}
+
+.app .info p {
+  padding-top: 2rem;
+  text-align: center!important;
+}

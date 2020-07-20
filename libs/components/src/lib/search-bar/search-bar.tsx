@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ReactSearchBox from 'react-search-box';
 import './search-bar.css';
 
 interface SearchBarProps<T> {
@@ -8,22 +7,17 @@ interface SearchBarProps<T> {
 
 export function SearchBar<T>(props: SearchBarProps<T>) {
   const [searchVal, setSearchVal] = useState('');
-  const recommendedResultsData = [
-    {
-      key: 'ginger',
-      value: 'ginger for nausea',
-    },
-  ];
 
   return (
     <div className="search-bar-container">
-      <ReactSearchBox
+      <input
         placeholder="Your Search"
         aria-label="search bar"
         value={searchVal}
-        data={recommendedResultsData}
-        onChange={(val) => setSearchVal(val)}
-        callback={(record) => console.log(record)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') props.onSearch(searchVal);
+        }}
+        onChange={(e) => setSearchVal(e.target.value)}
       />
       <button onClick={() => props.onSearch(searchVal)}>Search</button>
     </div>
