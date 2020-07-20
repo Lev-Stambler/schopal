@@ -9,6 +9,7 @@ app.use(
   cors({
     origin: [
       'http://localhost:4200',
+      'https://*.netlify.app',
       'https://schopal.netlify.app',
       'https://schopal.neocities.org',
     ],
