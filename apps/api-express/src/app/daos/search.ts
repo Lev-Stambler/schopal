@@ -6,6 +6,7 @@ import {
 } from '@foodmedicine/interfaces';
 import { runScholarsScraper } from '@foodmedicine/scholars-scraper';
 import * as articleParser from '@foodmedicine/article-parser';
+import { cleanString } from '@foodmedicine/word-explorer'
 
 export async function findQueryResults(
   query: string,
@@ -14,8 +15,9 @@ export async function findQueryResults(
     maxNumberOfParagraphs?: number;
   }
 ): Promise<ParsedArticleParagraphStandalone[]> {
+  const cleanedQuery = cleanString(query);
   const articleHeads = await runScholarsScraper(
-    query,
+    cleanedQuery,
     ScholarsDB.RUN_ALL,
     opts?.numberOfArticles || 25
   );
