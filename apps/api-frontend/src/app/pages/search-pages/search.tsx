@@ -6,7 +6,6 @@ import './search.css';
 import { onSearch } from './onsearch';
 import { Link } from 'react-router-dom';
 import { ScholarsDB } from '@foodmedicine/interfaces';
-import { ModalChooserDB } from '@foodmedicine/components';
 
 export default function SearchPage() {
   const history = useHistory();
