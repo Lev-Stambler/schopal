@@ -39,6 +39,7 @@ export async function getSynonyms(word: string): Promise<string[]> {
 /**
  * Clean a string for preprocessing.
  * Remove stop words and contractions
+ * Ex: I can't believe that it is red becomes I cannot believe it red
  */
 export function cleanString(s: string): string {
   const noContraction = contractions.expand(s);
