@@ -1,6 +1,8 @@
 import * as util from 'util';
 import * as wordnet from 'wordnet';
 import * as natural from 'natural';
+import contractions from 'contractions';
+import stopWord from 'stopword';
 
 const wordnetLookup = util.promisify(wordnet.lookup);
 
@@ -34,4 +36,13 @@ export async function getSynonyms(word: string): Promise<string[]> {
   return synonymWords;
 }
 
-// TODO add glossary def to word meaning
+/**
+ * Clean a string for preprocessing.
+ * Remove stop words and contractions
+ * Ex: I can't believe that it is red becomes I cannot believe it red
+ */
+export function cleanString(s: string): string {
+  const noContraction = contractions.expand(s);
+  const noStopWords = stopWord.removeStopwords(noContraction.split(' ')).join(' ');
+  return noStopWords;
+}
