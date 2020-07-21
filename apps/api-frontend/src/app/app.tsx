@@ -27,8 +27,9 @@ export const App = () => {
         <div className="feedback-form">
           <a href="https://forms.gle/gCkYrsvmBRGRbJKc9">Leave feedback</a>
         </div>
-        <div className="contact">Please contact me through
-            <a href="mailto:levst@google.com">my email</a>
+        <div className="contact">
+          Any questions? Please contact me through
+          <a href="mailto:levst@google.com"> my email</a>
         </div>
       </div>
     </div>
