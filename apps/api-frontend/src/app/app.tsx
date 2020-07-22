@@ -4,7 +4,7 @@ import './app.css';
 
 import SearchPage from './pages/search-pages/search';
 import ResultsPage from './pages/search-pages/search-result';
-import InfoPage from './pages/info-page/info'
+import InfoPage from './pages/info-page/info';
 
 export const App = () => {
   /*
@@ -23,6 +23,15 @@ export const App = () => {
           </Switch>
         </Router>
       </main>
+      <div className="footer">
+        <div className="feedback-form">
+          <a href="https://forms.gle/gCkYrsvmBRGRbJKc9">Leave feedback</a>
+        </div>
+        <div className="contact">
+          Any questions?
+          Click <a href="mailto:levst@google.com">here</a> to contact
+        </div>
+      </div>
     </div>
   );
 };

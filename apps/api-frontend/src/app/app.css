@@ -1,8 +1,9 @@
 .app {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  min-width: 300px;
-  max-width: 600px;
   margin: 50px auto;
+  display: grid;
+  justify-content: center;
+  padding: 2rem;
 }
 
 .app a {
@@ -13,6 +14,16 @@
 .app .bold {
   font-weight: 700;
   display: inline-block;
+}
+
+.app .footer {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.app .footer > div {
+  margin: 1rem;
 }
 
 .app .gutter-left {
@@ -38,6 +49,9 @@
 
 .app main {
   padding: 0 36px;
+  min-height: 80vh;
+  max-width: 900px;
+  overflow: auto;
 }
 
 .app p {
@@ -121,4 +135,12 @@
   height: 16px;
   width: 16px;
   margin-right: 4px;
+}
+
+body,
+div#root,
+.app {
+  height: 100vh;
+  margin: 0;
+  width: 100%;
 }
