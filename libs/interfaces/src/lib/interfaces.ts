@@ -44,6 +44,11 @@ export interface ParsedArticleParagraphStandalone
   head: ParsedArticleHead;
 }
 
+export interface ParsedArticlesByArticleId {
+  head: ParsedArticleHead;
+  paragraphs: ParsedArticleParagraph[];
+}
+
 export interface Parser<IRet> {
   parserF: (inputSource: string, opts?: any) => Promise<IRet[] | IRet>;
 }

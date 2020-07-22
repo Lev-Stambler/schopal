@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { environment } from '../../../environments/environment';
-import { ParsedArticleParagraphStandalone, ScholarsDB } from '@foodmedicine/interfaces';
+import {
+  ParsedArticleParagraphStandalone,
+  ScholarsDB,
+  ParsedArticlesByArticleId,
+} from '@foodmedicine/interfaces';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import { useLocation, useHistory } from 'react-router-dom';
 import { onSearch } from './onsearch';
@@ -8,20 +12,26 @@ import './search-result.css';
 import { SearchBar } from '@foodmedicine/components';
 
 function createGoogleScholarsQueryLink(title: string): string {
-  return `https://scholar.google.com/scholar?hl=en&as_sdt=0%2C31&q=${title}&btnG=`
+  return `https://scholar.google.com/scholar?hl=en&as_sdt=0%2C31&q=${title}&btnG=`;
 }
 
 function SingleResult(props: {
-  paragraph: ParsedArticleParagraphStandalone;
+  groupedByArticle: ParsedArticlesByArticleId;
   key: string;
 }) {
   return (
     <div
       className="single-result-container"
-      onClick={() => window.open(createGoogleScholarsQueryLink(props.paragraph.head.title))}
+      onClick={() =>
+        window.open(
+          createGoogleScholarsQueryLink(props.groupedByArticle.head.title)
+        )
+      }
     >
-      <h4 aria-label="paper's title">{props.paragraph.head.title}</h4>
-      <p aria-label="correlated paragraph">...{props.paragraph.body}...</p>
+      <h4 aria-label="paper's title">{props.groupedByArticle.head.title}</h4>
+      {props.groupedByArticle.paragraphs.map((paragraph) => <>
+        <p aria-label="correlated paragraph">...{paragraph.body}...</p>
+      </>)}
       <hr />
     </div>
   );
@@ -33,9 +43,7 @@ function useQuery() {
 
 export default function Results() {
   const queryParams = useQuery();
-  const [searchResults, setResults] = useState<
-    ParsedArticleParagraphStandalone[]
-  >([]);
+  const [searchResults, setResults] = useState<ParsedArticlesByArticleId[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState<string>(null);
   const query = queryParams.get('query');
@@ -45,14 +53,18 @@ export default function Results() {
     setIsLoading(true);
     setErrMsg(null);
     try {
-      const ret = await fetch(environment.baseApiUrl + `/search?q=${query}&db=${db}&numberOfArticles=${numberOfArticles}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      });
+      const ret = await fetch(
+        environment.baseApiUrl +
+          `/search?q=${query}&db=${db}&numberOfArticles=${numberOfArticles}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       const body = await ret.json();
-      setResults(body as ParsedArticleParagraphStandalone[]);
+      setResults(body as ParsedArticlesByArticleId[]);
     } catch (e) {
       console.log(e);
       setErrMsg('An error occurred in loading your results');
@@ -87,7 +99,10 @@ export default function Results() {
           <hr />
           <hr />
           {searchResults.map((result, i) => (
-            <SingleResult key={`single-result-${i}`} paragraph={result} />
+            <SingleResult
+              key={`single-result-${i}`}
+              groupedByArticle={result}
+            />
           ))}
         </div>
       )}
