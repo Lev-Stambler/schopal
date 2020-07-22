@@ -17,10 +17,10 @@ export const ArxivParser: Parser<ParsedArticleHead> = {
     const parser = new xmlJs.Parser();
     const jsonRes = await parser.parseStringPromise(xml);
     const allResults = jsonRes.feed.entry || [];
-    const parsedHeads: ParsedArticleHead[] = allResults
+    const parsedHeads: ParsedArticleHead[] = (allResults || [])
       .map((res) => {
-        const pdfDownloadLinks = res.link
-          .filter((linkItem) => linkItem.$.title === 'pdf')
+        const pdfDownloadLinks = (res.link
+          .filter((linkItem) => linkItem.$.title === 'pdf') || [])
           .map((linkItem) => linkItem.$.href);
         const fullTextDownloadLink = pdfDownloadLinks[0] || null;
         return {

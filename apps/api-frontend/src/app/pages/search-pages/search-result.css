@@ -1,4 +1,8 @@
 .app .results-container .single-result-container p {
+  cursor: pointer;
+}
+
+.app .results-container .single-result-container p {
   padding: 1rem;
   text-align: left;
 }
