@@ -17,7 +17,7 @@ export const EuropePMCParser: Parser<ParsedArticleHead> = {
     const parser = new xmlJs.Parser();
     const jsonRes = await parser.parseStringPromise(xml);
     const allResults = jsonRes.responseWrapper.resultList[0].result;
-    const parsedHeads: ParsedArticleHead[] = allResults.map((res) => {
+    const parsedHeads: ParsedArticleHead[] = (allResults || []).map((res) => {
       return {
         id: res.id[0],
         title: res.title[0],
