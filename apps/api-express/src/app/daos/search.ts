@@ -91,10 +91,6 @@ export async function findQueryResults(
     );
     allParagraphsStandalone.push(...standaloneParagraphs);
   });
-  // // Sort in descending order and remove empty items
-  // allParagraphsStandalone.sort(
-  //   (a, b) => b.correlationScore - a.correlationScore
-  // );
   const allParagraphsStandaloneFiltered = allParagraphsStandalone.filter(
     (paragraph) => paragraph.body?.trim().length > 0
   );
@@ -103,6 +99,8 @@ export async function findQueryResults(
     opts?.maxNumberOfParagraphs || allParagraphsStandalone.length
   );
   const byArticle = groupParagraphsByArticle(filteredByLength);
+
+  // sort the individual paragraphs within an article by correlation score
   byArticle.map((article) =>
     article.paragraphs.sort((a, b) => b.correlationScore - a.correlationScore)
   );

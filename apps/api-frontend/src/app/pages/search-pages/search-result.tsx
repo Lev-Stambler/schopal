@@ -19,19 +19,44 @@ function SingleResult(props: {
   groupedByArticle: ParsedArticlesByArticleId;
   key: string;
 }) {
+  const navToGoogleScholars = () => {
+    window.open(
+      createGoogleScholarsQueryLink(props.groupedByArticle.head.title)
+    );
+  };
+  const [showOverflow, setShowOverflow] = useState(false);
   return (
-    <div
-      className="single-result-container"
-      onClick={() =>
-        window.open(
-          createGoogleScholarsQueryLink(props.groupedByArticle.head.title)
-        )
-      }
-    >
-      <h4 aria-label="paper's title">{props.groupedByArticle.head.title}</h4>
-      {props.groupedByArticle.paragraphs.map((paragraph) => <>
-        <p aria-label="correlated paragraph">...{paragraph.body}...</p>
-      </>)}
+    <div className="single-result-container">
+      <h4 aria-label="paper's title" onClick={() => navToGoogleScholars()}>
+        {props.groupedByArticle.head.title}
+      </h4>
+      {props.groupedByArticle.paragraphs.map((paragraph, i) => (
+        <>
+          <p
+            aria-label="correlated paragraph"
+            style={{
+              display: i >= 2 ? (showOverflow ? 'block' : 'none') : 'block',
+            }}
+          >
+            ...{paragraph.body}...
+          </p>
+        </>
+      ))}
+      <div className="article-actions">
+        {showOverflow && (
+          <button onClick={() => setShowOverflow(false)}>
+            Hide Some of these Paragraphs
+          </button>
+        )}
+        {!showOverflow && (
+          <button onClick={() => setShowOverflow(true)}>
+            Show Me More Paragraphs from this Source
+          </button>
+        )}
+        <button onClick={() => navToGoogleScholars()}>
+          Take Me to the Article
+        </button>
+      </div>
       <hr />
     </div>
   );
