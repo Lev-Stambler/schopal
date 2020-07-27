@@ -5,7 +5,7 @@
 }
 .app .results-container .single-result-container .article-actions button {
   margin: 1rem;
-  min-width: 100px;
+  min-width: 6rem;
 }
 
 .app .results-container .single-result-container h4 {

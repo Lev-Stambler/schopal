@@ -21,7 +21,7 @@ function groupParagraphsByArticle(
   });
   const parsedByTitle: ParsedArticlesByArticleId[] = Object.keys(byIds)
     .map((id) => {
-      if (!byIds[id] || byIds[id].length === 0) {
+      if (!byIds[id]?.length === 0) {
         return null;
       }
       return {

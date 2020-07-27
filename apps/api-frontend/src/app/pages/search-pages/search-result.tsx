@@ -31,16 +31,14 @@ function SingleResult(props: {
         {props.groupedByArticle.head.title}
       </h4>
       {props.groupedByArticle.paragraphs.map((paragraph, i) => (
-        <>
-          <p
+        <p
             aria-label="correlated paragraph"
             style={{
               display: i >= 2 ? (showOverflow ? 'block' : 'none') : 'block',
             }}
           >
             ...{paragraph.body}...
-          </p>
-        </>
+        </p>
       ))}
       <div className="article-actions">
         {showOverflow && (
