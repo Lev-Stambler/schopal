@@ -1,4 +1,14 @@
-.app .results-container .single-result-container p {
+.app .results-container .single-result-container .article-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.app .results-container .single-result-container .article-actions button {
+  margin: 1rem;
+  min-width: 6rem;
+}
+
+.app .results-container .single-result-container h4 {
   cursor: pointer;
 }
 

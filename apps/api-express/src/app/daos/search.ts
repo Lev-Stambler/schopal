@@ -3,10 +3,55 @@ import {
   ParsedArticle,
   ParsedArticleParagraph,
   ScholarsDB,
+  ParsedArticlesByArticleId,
 } from '@foodmedicine/interfaces';
 import { runScholarsScraper } from '@foodmedicine/scholars-scraper';
 import * as articleParser from '@foodmedicine/article-parser';
-import { cleanString } from '@foodmedicine/word-explorer'
+import { cleanString } from '@foodmedicine/word-explorer';
+
+function groupParagraphsByArticle(
+  articlesStandalone: ParsedArticleParagraphStandalone[]
+): ParsedArticlesByArticleId[] {
+  const byIds: { [key: string]: ParsedArticleParagraphStandalone[] } = {};
+  articlesStandalone.map((articleStandalone) => {
+    if (!byIds[articleStandalone.head.id]) {
+      byIds[articleStandalone.head.id] = [];
+    }
+    byIds[articleStandalone.head.id].push(articleStandalone);
+  });
+  const parsedByTitle: ParsedArticlesByArticleId[] = Object.keys(byIds)
+    .map((id) => {
+      if (!byIds[id]?.length === 0) {
+        return null;
+      }
+      return {
+        head: byIds[id][0].head,
+        paragraphs: byIds[id].map((paragraphStandalone) => {
+          return {
+            body: paragraphStandalone.body,
+            correlationScore: paragraphStandalone.correlationScore,
+          };
+        }),
+      } as ParsedArticlesByArticleId;
+    })
+    .filter((item) => item !== null);
+  return parsedByTitle;
+}
+
+function sortParagraphsByArticle(
+  a: ParsedArticlesByArticleId,
+  b: ParsedArticlesByArticleId
+): number {
+  const aTotalScore = a.paragraphs.reduce(
+    (prev, paragraph) => (prev += paragraph.correlationScore),
+    0
+  );
+  const bTotalScore = b.paragraphs.reduce(
+    (prev, paragraph) => (prev += paragraph.correlationScore),
+    0
+  );
+  return bTotalScore - aTotalScore;
+}
 
 export async function findQueryResults(
   query: string,
@@ -14,7 +59,7 @@ export async function findQueryResults(
     numberOfArticles?: number;
     maxNumberOfParagraphs?: number;
   }
-): Promise<ParsedArticleParagraphStandalone[]> {
+): Promise<ParsedArticlesByArticleId[]> {
   const cleanedQuery = cleanString(query);
   const articleHeads = await runScholarsScraper(
     cleanedQuery,
@@ -46,15 +91,18 @@ export async function findQueryResults(
     );
     allParagraphsStandalone.push(...standaloneParagraphs);
   });
-  // Sort in descending order and remove empty items
-  allParagraphsStandalone.sort(
-    (a, b) => b.correlationScore - a.correlationScore
-  );
   const allParagraphsStandaloneFiltered = allParagraphsStandalone.filter(
     (paragraph) => paragraph.body?.trim().length > 0
   );
-  return allParagraphsStandaloneFiltered.slice(
+  const filteredByLength = allParagraphsStandaloneFiltered.slice(
     0,
     opts?.maxNumberOfParagraphs || allParagraphsStandalone.length
   );
+  const byArticle = groupParagraphsByArticle(filteredByLength);
+
+  // sort the individual paragraphs within an article by correlation score
+  byArticle.map((article) =>
+    article.paragraphs.sort((a, b) => b.correlationScore - a.correlationScore)
+  );
+  return byArticle.sort((a, b) => sortParagraphsByArticle(a, b));
 }
