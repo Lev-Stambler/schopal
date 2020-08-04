@@ -30,16 +30,6 @@ function SingleResult(props: {
       <h4 aria-label="paper's title" onClick={() => navToGoogleScholars()}>
         {props.groupedByArticle.head.title}
       </h4>
-      {props.groupedByArticle.paragraphs.map((paragraph, i) => (
-        <p
-            aria-label="correlated paragraph"
-            style={{
-              display: i >= 2 ? (showOverflow ? 'block' : 'none') : 'block',
-            }}
-          >
-            ...{paragraph.body}...
-        </p>
-      ))}
       <div className="article-actions">
         {showOverflow && (
           <button onClick={() => setShowOverflow(false)}>
@@ -55,6 +45,17 @@ function SingleResult(props: {
           Take Me to the Article
         </button>
       </div>
+      {props.groupedByArticle.paragraphs.map((paragraph, i) => (
+        <p
+          aria-label="correlated paragraph"
+          style={{
+            display: i >= 2 ? (showOverflow ? 'block' : 'none') : 'block',
+          }}
+        >
+          ...{paragraph.body}...
+        </p>
+      ))}
+
       <hr />
     </div>
   );
