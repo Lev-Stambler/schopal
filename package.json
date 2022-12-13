@@ -37,7 +37,7 @@
     "contractions": "0.0.7",
     "cors": "^2.8.5",
     "document-register-element": "1.13.1",
-    "express": "4.17.1",
+    "express": "4.17.3",
     "fs": "0.0.1-security",
     "natural": "^2.1.5",
     "node-fetch": "^2.6.0",
